@@ -1,11 +1,10 @@
 package main
 
 import (
+	"github.com/sa1utyeggs/mermaid-go/mermaid"
+	"github.com/spf13/afero"
 	"log"
 	"testing"
-
-	"github.com/joshcarp/mermaid-go/mermaid"
-	"github.com/spf13/afero"
 )
 
 func TestY(t *testing.T) {

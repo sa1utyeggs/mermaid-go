@@ -2,13 +2,12 @@ package main
 
 import (
 	"flag"
+	"github.com/sa1utyeggs/mermaid-go/mermaid"
 	"log"
 	"path/filepath"
 	"strings"
 
 	"github.com/spf13/afero"
-
-	"github.com/sau1tyeggs/mermaid-go/mermaid"
 )
 
 func main() {
