@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/base64"
 	"html/template"
+	"log"
 	"net/http"
 	"net/http/httptest"
 
@@ -23,6 +24,11 @@ const indexHTML = `<html>
 </body>
 </html>`
 
+var opts = []chromedp.ContextOption{
+	// chromedp.WithNewBrowserContext(),
+	chromedp.WithDebugf(log.Printf),
+}
+
 // Execute evaluates mermaid code and returns svg string slices.
 func Execute(mermaidCode string) string {
 	return EvaluateAndSelectHTML(LoadTemplate(mermaidCode), "svg")
@@ -38,7 +44,7 @@ func Decode64(src []byte) []byte {
 
 // Execute evaluates raw html (with javascript embedded) and returns the processed HTML.
 func EvaluateAndSelectHTML(rawHTML, selector string) string {
-	ctx, cancel := chromedp.NewContext(context.Background())
+	ctx, cancel := chromedp.NewContext(context.Background(), opts...)
 	defer cancel()
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
