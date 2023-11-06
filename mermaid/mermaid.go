@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -48,10 +49,16 @@ func EvaluateAndSelectHTML(rawHTML, selector string) string {
 	defer cancel()
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(rawHTML))
+		_, err := w.Write([]byte(rawHTML))
+		if err != nil {
+			fmt.Printf("router to '/' occur a error: %v \n", err)
+		}
 	})
 	r.Get("/mermaid.min.js", func(w http.ResponseWriter, r *http.Request) {
-		w.Write((Decode64([]byte(mermaidjs64))))
+		_, err := w.Write(Decode64([]byte(mermaidjs64)))
+		if err != nil {
+			fmt.Printf("router to '/mermaid.min.js' occur a error: %v \n", err)
+		}
 	})
 	ts := httptest.NewServer(r)
 	defer ts.Close()
